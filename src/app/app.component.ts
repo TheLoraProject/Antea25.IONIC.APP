@@ -4,7 +4,18 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
+import { ListPage } from '../pages/position/position';
+
+export interface PageInterface {
+  title: string;
+  name: string;
+  component: any;
+  icon: string;
+  logsOut?: boolean;
+  index?: number;
+  tabName?: string;
+  tabComponent?: any;
+}
 
 @Component({
   templateUrl: 'app.html'
@@ -14,17 +25,17 @@ export class MyApp {
 
   rootPage: any = HomePage;
 
-  pages: Array<{title: string, component: any}>;
-
+  // pages: Array<{title: string, component: any}>;
+  pages: Array<{ title: string, component: any, index: number, icon: string}>;
+ 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
-    this.pages = [
-      { title: 'Home', component: HomePage },
-      { title: 'List', component: ListPage }
+    this.pages  = [
+      { title: 'Home', component: HomePage, index: 0, icon: 'ios-home' },
+      { title: 'Position GPS', component: ListPage, index : 1, icon: 'map' }
     ];
-
   }
 
   initializeApp() {
@@ -41,4 +52,5 @@ export class MyApp {
     // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(page.component);
   }
+
 }

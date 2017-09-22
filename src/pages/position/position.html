@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Position GPS</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <button ion-item *ngFor="let item of result" (click)="itemTapped($event, item)">
+      <ion-icon name="md-pin" item-left color="secondary"></ion-icon>
+      {{item.gpsPositionLatitude}}
+      {{item.gpsPositionLongitude}}
+      <div class="item-note" item-right>
+        {{item.gpsPositionDate |date : format  :'shortDate'}}
+      
+      </div>
+    </button>
+  </ion-list>
+  <!-- <div *ngIf="selectedItem" padding>
+    You navigated here from <b>{{selectedItem.title}}</b>
+  </div> -->
+</ion-content>

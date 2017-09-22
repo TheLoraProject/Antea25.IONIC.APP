@@ -1,5 +1,15 @@
 {
   "name": "antea25App",
   "app_id": "",
-  "type": "ionic-angular"
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  },
+  "proxies": [
+    {
+      "path": "/proxy-antea25",
+    
+      "proxyUrl": "http://localhost:5222/antea25/api"
+    }
+  ]
 }
