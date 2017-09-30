@@ -17,7 +17,7 @@ export class HomePage {
   public interval;
   public subscription;
   public alert;
-  alertClosed = true; 
+  alertClosed = true;
   map : any;
 
   @ViewChild('map') mapElement;
@@ -27,19 +27,18 @@ export class HomePage {
     public http: Http,
     public storage: Storage){
       this.isAlarmOn = false;
-      this.readFromStorageAlarmStatus(); 
-   
   }
 
   ionViewDidLoad(){
+    this.readFromStorageAlarmStatus(); 
     this.getLastGpsPosition();
   }
 
   getLastGpsPosition(){
-    let url = "/proxy-antea25/loc/getgpsdata/a17767b1-820f-4f0b-948b-acd9cd1a242a";
+    let urlBase = !document.URL.startsWith('http') ? "http://dspx.eu/antea25" : "";
+    let url = urlBase + "/api/loc/getgpsdata/a17767b1-820f-4f0b-948b-acd9cd1a242a";
     this.http.get(url).subscribe(data => {
       if(data.json().length > 0){
-        console.log(data.json()[data.json().length-1])
         this.initMap(data.json()[data.json().length-1].gpsPositionLatitude, data.json()[data.json().length-1].gpsPositionLongitude)
       }
       else{
@@ -73,12 +72,12 @@ export class HomePage {
   }
 
   alarmSwitcher(event){
-    debugger;
-    if(event.checked){
+    if(event.checked ||event ==null){
       this.saveInStorageAlarmStatus();
       this.interval = Observable.timer(300,15000);
       this.subscription = this.interval.subscribe(t=>{
-        let url = "/proxy-antea25/loc/getMotion/a17767b1-820f-4f0b-948b-acd9cd1a242a/" + this.getCurrentDate();
+        let urlBase = !document.URL.startsWith('http') ? "http://dspx.eu/antea25" : "";
+        let url = urlBase + "/api/loc/getMotion/a17767b1-820f-4f0b-948b-acd9cd1a242a/" + this.getCurrentDate();
         this.http.get(url).subscribe(p => {
           
           //as it is asynchrone if user stop alarm
@@ -100,7 +99,6 @@ export class HomePage {
                 this.alert.present();  
               }
           }
-          console.log(p.json());
         });
       });
     }

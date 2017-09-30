@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="map"></ion-icon>
+    </button>
+    <ion-title>Detail position</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content >
+  <ion-item>
+    <ion-label>Date {{position.gpsPositionDate| date : "dd/MM/yyyy h:mm a"}}</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label>Latitude {{position.gpsPositionLatitude}}</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label>Longitude {{position.gpsPositionLongitude}}</ion-label>
+  </ion-item>
+ 
+
+    <div #map id="map" style="height:80%"></div>
+  </ion-content>
+
+ 

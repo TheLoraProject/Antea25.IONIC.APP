@@ -10,7 +10,7 @@
 <ion-content >
     <ion-item>
         <ion-label> Alarm On /off</ion-label>
-        <ion-toggle [(ngModel)]="isAlarmOn" (ionChange)="alarmSwitcher($event)"></ion-toggle>
+        <ion-toggle [(ngModel)]="isAlarmOn" (ionChange)="alarmSwitcher($event)"  [checked]="isAlarmOn"></ion-toggle>
     </ion-item>
 
     <ion-grid>

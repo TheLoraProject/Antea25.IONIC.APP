@@ -7,7 +7,7 @@
   },
   "proxies": [
     {
-      "path": "/proxy-antea25",
+      "path": "/api",
     
       "proxyUrl": "http://localhost:5222/antea25/api"
     }
