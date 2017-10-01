@@ -1,9 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController } from 'ionic-angular';
-import { AlertController } from 'ionic-angular';
+import { NavController, Platform, AlertController } from 'ionic-angular';
 import { Http } from '@angular/http';
 import { Observable } from "rxjs";
 import { Storage } from '@ionic/storage';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 
 declare var google; 
 
@@ -17,6 +17,7 @@ export class HomePage {
   public interval;
   public subscription;
   public alert;
+  private isAndroid : boolean;
   alertClosed = true;
   map : any;
 
@@ -25,8 +26,30 @@ export class HomePage {
   constructor(public navCtrl: NavController, 
     public alertCtrl: AlertController, 
     public http: Http,
-    public storage: Storage){
+    public storage: Storage,
+    private platform: Platform, 
+    private localNotifications: LocalNotifications)
+    {
+      //detect platform
+      this.isAndroid = !this.platform.is('ios');
       this.isAlarmOn = false;
+
+      //Callback function if push notification
+      this.platform.ready().then(rdy=>{
+          this.localNotifications.on('click', (notification, state)=>{
+            this.alertClosed = false;
+            this.alert = this.alertCtrl.create({
+              title: 'Antea25 ALARM!',
+              subTitle: 'Something is happening!',
+              buttons: [{text: 'OK', role: 'cancel',
+                handler: () => {
+                  this.alertClosed = true;  
+                }
+              }]
+        });
+        this.alert.present(); 
+      })
+    });
   }
 
   ionViewDidLoad(){
@@ -72,7 +95,7 @@ export class HomePage {
   }
 
   alarmSwitcher(event){
-    if(event.checked ||event ==null){
+    if(event.checked || event == null){
       this.saveInStorageAlarmStatus();
       this.interval = Observable.timer(300,15000);
       this.subscription = this.interval.subscribe(t=>{
@@ -84,19 +107,7 @@ export class HomePage {
           if(event.checked){ 
               if(p.json() == true && this.alertClosed)
               {
-                this.alertClosed = false;
-                this.alert = this.alertCtrl.create({
-                      title: 'Antea25 ALARM!',
-                      subTitle: 'Something is happening!',
-                      buttons: [{
-                        text: 'OK',
-                        role: 'cancel',
-                        handler: () => {
-                          this.alertClosed = true;  
-                        }
-                        }]
-                });
-                this.alert.present();  
+                this.schedulePushNotification();
               }
           }
         });
@@ -108,6 +119,16 @@ export class HomePage {
       this.saveInStorageAlarmStatus();
     }
   }
+
+  schedulePushNotification(){
+    this.localNotifications.schedule({
+      id: 1,
+      title: 'Antea25 Notification',
+      text: 'Something is happening!',
+      sound: this.isAndroid? 'file://sound.mp3': 'file://beep.caf',
+    });
+  }
+
 
   getCurrentDate() : string{
     let currentDate = new Date();
