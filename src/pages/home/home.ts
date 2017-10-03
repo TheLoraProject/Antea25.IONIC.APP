@@ -13,13 +13,13 @@ declare var google;
 })
 
 export class HomePage {
-  isAlarmOn : boolean;
-  public interval;
-  public subscription;
-  public alert;
+  private isAlarmOn : boolean;
+  private interval;
+  private subscription;
+  private alert;
   private isAndroid : boolean;
-  alertClosed = true;
-  map : any;
+  private alertClosed = true;
+  public map : any;
 
   @ViewChild('map') mapElement;
 
@@ -35,29 +35,19 @@ export class HomePage {
       this.isAlarmOn = false;
 
       //Callback function if push notification
-      this.platform.ready().then(rdy=>{
-          this.localNotifications.on('click', (notification, state)=>{
-            this.alertClosed = false;
-            this.alert = this.alertCtrl.create({
-              title: 'Antea25 ALARM!',
-              subTitle: 'Something is happening!',
-              buttons: [{text: 'OK', role: 'cancel',
-                handler: () => {
-                  this.alertClosed = true;  
-                }
-              }]
-        });
-        this.alert.present(); 
-      })
-    });
+    //   this.platform.ready().then(rdy=>{
+    //       this.localNotifications.on('click', (notification, state)=>{
+    //         this.showAlert('Antea25 ALARM!', 'Something is happening!');
+    //   })
+    // });
   }
 
   ionViewDidLoad(){
     this.readFromStorageAlarmStatus(); 
-    this.getLastGpsPosition();
+    this.showLastPosition();
   }
 
-  getLastGpsPosition(){
+  showLastPosition(){
     let urlBase = !document.URL.startsWith('http') ? "http://dspx.eu/antea25" : "";
     let url = urlBase + "/api/loc/getgpsdata/a17767b1-820f-4f0b-948b-acd9cd1a242a";
     this.http.get(url).subscribe(data => {
@@ -65,13 +55,13 @@ export class HomePage {
         this.initMap(data.json()[data.json().length-1].gpsPositionLatitude, data.json()[data.json().length-1].gpsPositionLongitude)
       }
       else{
+        //Else default position is London
         this.initMap(55, -1.5);
       }
-    },err => this.initMap(55, -1.5));
-  }
-
-  showLastPosition(){
-    this.getLastGpsPosition();
+    },err => {
+      this.initMap(55, -1.5);
+      this.showAlert('Antea25 ERROR!', 'network not available');
+    });
   }
 
   initMap(lat, lng){
@@ -107,7 +97,8 @@ export class HomePage {
           if(event.checked){ 
               if(p.json() == true && this.alertClosed)
               {
-                this.schedulePushNotification();
+                this.showAlert('Antea25 ALARM!', 'Something is happening!')
+                this.showPushNotification();
               }
           }
         });
@@ -120,18 +111,34 @@ export class HomePage {
     }
   }
 
-  schedulePushNotification(){
+  showPushNotification(){
     this.localNotifications.schedule({
       id: 1,
-      title: 'Antea25 Notification',
+      title: 'Antea25 ALARM!',
       text: 'Something is happening!',
-      sound: this.isAndroid? 'file://sound.mp3': 'file://beep.caf',
+      data: { secret: 123 },
+      //sound: this.isAndroid? 'file://sound.mp3': 'file://beep.caf',
     });
+    this.localNotifications.isPresent(1);
   }
 
+  showAlert(myTitle : string, mySubTitle : string ){
+    this.alertClosed = false;  
+    this.alert = this.alertCtrl.create({
+      title: myTitle,
+      subTitle: mySubTitle,
+      buttons: [{text: 'OK', role: 'cancel',
+        handler: () => {
+          this.alertClosed = true;  
+        }
+      }]
+    });
+    this.alert.present(); 
+  }
 
   getCurrentDate() : string{
     let currentDate = new Date();
+    console.log(new Date(currentDate.getTime() - (currentDate.getTimezoneOffset() * 60000)));
     return new Date(currentDate.getTime() - (currentDate.getTimezoneOffset() * 60000)).toISOString().split('.')[0];
   }
 

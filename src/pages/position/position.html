@@ -11,10 +11,11 @@
   <ion-list>
     <button ion-item *ngFor="let item of result" (click)="itemTapped($event, item)">
       <ion-icon name="md-pin" item-left color="secondary"></ion-icon>
-      {{item.gpsPositionLatitude}}
-      {{item.gpsPositionLongitude}}
+      <!-- {{item.gpsPositionLatitude}}
+      {{item.gpsPositionLongitude}} -->
+      {{item.gpsPositionDate | date : "dd/MM/yyyy h:mm a"}}
       <div class="item-note" item-right>
-        {{item.gpsPositionDate |date : format  :'shortDate'}}
+        <!-- {{item.gpsPositionDate |date : format  :'shortDate'}} -->
       
       </div>
     </button>
