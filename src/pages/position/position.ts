@@ -19,7 +19,7 @@ export class ListPage {
      
       this.items = [];
       let urlBase = !document.URL.startsWith('http') ? "http://dspx.eu/antea25" : "";
-      let url = urlBase + "/api/loc/getgpsdata/a17767b1-820f-4f0b-948b-acd9cd1a242a";
+      let url = urlBase + "/api/loc/getgps/0004A30B00201302";
       http.get(url).subscribe(data => {
         this.result = data.json();      
       });

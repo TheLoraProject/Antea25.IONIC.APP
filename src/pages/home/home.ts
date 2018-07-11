@@ -59,7 +59,7 @@ export class HomePage {
 
   getLastGpsPosition(){
     let urlBase = !document.URL.startsWith('http') ? "http://dspx.eu/antea25" : "";
-    let url = urlBase + "/api/loc/getgpsdata/a17767b1-820f-4f0b-948b-acd9cd1a242a";
+    let url = urlBase + "/api/loc/getgps/0004A30B00201302";
     this.http.get(url).subscribe(data => {
       if(data.json().length > 0){
         this.initMap(data.json()[data.json().length-1].gpsPositionLatitude, data.json()[data.json().length-1].gpsPositionLongitude)
@@ -100,7 +100,7 @@ export class HomePage {
       this.interval = Observable.timer(300,15000);
       this.subscription = this.interval.subscribe(t=>{
         let urlBase = !document.URL.startsWith('http') ? "http://dspx.eu/antea25" : "";
-        let url = urlBase + "/api/loc/getMotion/a17767b1-820f-4f0b-948b-acd9cd1a242a/" + this.getCurrentDate();
+        let url = urlBase + "/api/loc/getMotion/0004A30B00201302/" + this.getCurrentDate();
         this.http.get(url).subscribe(p => {
           
           //as it is asynchrone if user stop alarm
