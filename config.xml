@@ -80,11 +80,11 @@
         <splash height="2732" src="resources/ios/splash/Default@2x~universal~anyany.png" width="2732" />
         <resource-file src="GoogleService-Info.plist" />
     </platform>
-    <allow-navigation href="http://192.168.8.179:8101" />
-    <allow-navigation href="http://192.168.8.179:8100" />
+    <allow-navigation href="http://192.168.0.14:8100" />
+    <allow-navigation href="http://192.168.0.14:8101" />
     <engine name="android" spec="^6.2.3" />
-    <engine name="ios" spec="^4.4.0" />
     <plugin name="cordova-plugin-advanced-http" spec="^1.5.9" />
+    <plugin name="cordova-plugin-app-event" spec="git+https://github.com/katzer/cordova-plugin-app-event.git" />
     <plugin name="cordova-plugin-device" spec="1.1.4" />
     <plugin name="cordova-plugin-splashscreen" spec="~4.0.1" />
     <plugin name="cordova-plugin-statusbar" spec="2.2.2" />
@@ -92,5 +92,4 @@
     <plugin name="cordova-sqlite-storage" spec="^2.0.4" />
     <plugin name="de.appplant.cordova.plugin.local-notification" spec="^0.8.5" />
     <plugin name="ionic-plugin-keyboard" spec="~2.2.1" />
-    <plugin name="phonegap-plugin-push" spec="^2.0.0" />
 </widget>
