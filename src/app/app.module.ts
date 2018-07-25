@@ -7,6 +7,8 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/position/position';
 import { PositionDetailPage } from '../pages/positionDetail/positionDetail';
+import { DevicePage } from '../pages/device/device';
+import { LoginPage } from '../pages/login/login';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -14,8 +16,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { HttpModule } from '@angular/http';
 import { IonicStorageModule } from '@ionic/storage';
 import { LocalNotifications } from '@ionic-native/local-notifications';
-
-
+import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,9 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
     HomePage,
     ListPage,
     TabsPage,
-    PositionDetailPage
+    PositionDetailPage,
+    DevicePage,
+    LoginPage
   ],
   imports: [
     BrowserModule,
@@ -37,13 +40,16 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
     HomePage,
     ListPage,
     TabsPage,
-    PositionDetailPage
+    PositionDetailPage,
+    DevicePage,
+    LoginPage
   ],
   providers: [
     LocalNotifications,
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    AuthServiceProvider
   ]
 })
 export class AppModule {}

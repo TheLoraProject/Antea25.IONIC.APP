@@ -6,6 +6,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { TabsPage } from '../pages/tabs/tabs';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/position/position';
+import { DevicePage } from '../pages/device/device';
+import { LoginPage } from '../pages/login/login';
 
 export interface PageInterface {
   title: string;
@@ -26,6 +28,7 @@ export class MyApp {
 
   //rootPage: any = HomePage;
   rootPage: any = TabsPage;
+  //rootPage: any = LoginPage;
 
   // pages: Array<{title: string, component: any}>;
   pages: Array<{ title: string, component: any, index: number, icon: string}>;
@@ -36,7 +39,8 @@ export class MyApp {
     // used for an example of ngFor and navigation
     this.pages  = [
       { title: 'Home', component: HomePage, index: 0, icon: 'ios-home' },
-      { title: 'Position GPS', component: ListPage, index : 1, icon: 'map' }
+      { title: 'Position GPS', component: ListPage, index : 1, icon: 'ios-navigate' },
+      { title: 'My devices', component: DevicePage, index : 1, icon: 'ios-bug' }
     ];
   }
 

@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>My devices</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content >
+    <ion-item>
+        <ion-label> Add new device</ion-label>
+        <ion-toggle [(ngModel)]="isAlarmOn" (ionChange)="alarmSwitcher($event)"  [checked]="isAlarmOn"></ion-toggle>
+    </ion-item>
+
+    <ion-list>
+      <button ion-item *ngFor="let device of deviceList" (click)="itemTapped($event, item)">
+        <ion-icon name="md-pin" item-left color="primary"></ion-icon>
+        {{device.deviceEUI}}
+        <div class="item-note" item-right>
+          <!-- {{item.gpsPositionDate |date : format  :'shortDate'}} -->
+        
+        </div>
+      </button>
+    </ion-list>
+   
+    <div #map id="map" style="height:80%"></div>
+  </ion-content>
